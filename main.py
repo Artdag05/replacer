@@ -1,14 +1,27 @@
-from replacer import*
+import os
+from replacer import* 
 
-filename = "test.cpp"
-new_file = ""
+def filter(files):
+    result = list()
+    for file in files:
+        if file.endswith(".cpp"):
+            result.append(file)
+    return result
 
-with open(filename, "r") as file:
-    for line in file:
-        line = changeFuncParametrs(line)
-        line = line.rstrip("\n") #remove '\n' from line.
-        line = changeLogger(line)
-        new_file += line + '\n'
-    
-with open(filename, "w") as file:
-    file.write(new_file)
+dirname = input("Enter dir name location: ")
+files = filter(os.listdir(dirname))
+
+for file in files:
+    filename = os.path.join(dirname, file)
+    new_file = ""
+
+    with open(filename, "r") as file:
+        for line in file:
+            line = changeParam(line)
+            line = line.rstrip("\n")
+            line = changeLogger(line)
+            new_file += line + '\n'
+        
+    with open(filename, "w") as file:
+        file.write(new_file)
+
